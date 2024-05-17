@@ -61,7 +61,11 @@ class Customer {
     return await Reservation.getReservationsForCustomer(this.id);
   }
 
-  /** save this customer. */
+  /** Save this customer to the DB.
+   * This adds a customer if they are not located already in the DB.
+   * Otherwise we update the customer's information for:
+   * first name, last name, phone, and notes.
+  */
 
   async save() {
     if (this.id === undefined) {

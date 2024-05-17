@@ -6,14 +6,17 @@ import morgan from "morgan";
 import { BadRequestError } from "./expressError.js";
 import Customer from "./models/customer.js";
 import Reservation from "./models/reservation.js";
-import { logger, checkSearchQuery } from "./middleware.js";
+import { logger } from "./middleware.js";
 
 const router = new express.Router();
 router.use(morgan('dev'));
 
 router.use(logger);
 
-/** Homepage: show list of all customers or filtered by search customers */
+/** Homepage: Checks if the route query contains "/?search="
+* If so, passing a filtered list of customers by search term value.
+* Else, passing list of all customers.
+*/
 
 router.get("/", async function (req, res, next) {
   let customers;
@@ -29,7 +32,7 @@ router.get("/", async function (req, res, next) {
   }
 );
 
-router.get("/top-ten/", async function (req, res) {
+router.get("/top-ten/", async function (req, res, next) {
   const customers = await Customer.getBestCustomers();
 
   return res.render("customer_list.jinja", { customers });

@@ -26,6 +26,13 @@ router.get(
   }
 );
 
+router.get("/top-ten/", async function (req, res) {
+  const customers = await Customer.getBestCustomers();
+
+  return res.render("customer_list.jinja", { customers });
+  }
+);
+
 /** Form to add a new customer. */
 
 router.get("/add/", async function (req, res, next) {

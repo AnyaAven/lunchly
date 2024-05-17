@@ -32,6 +32,7 @@ router.get("/", async function (req, res, next) {
   }
 );
 
+/** Show top ten customers */
 router.get("/top-ten/", async function (req, res, next) {
   const customers = await Customer.getBestCustomers();
 

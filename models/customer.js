@@ -12,6 +12,7 @@ class Customer {
     this.lastName = lastName;
     this.phone = phone;
     this.notes = notes;
+    this.fullName = this.getFullName();
   }
 
   /** find all customers. */
@@ -87,6 +88,12 @@ class Customer {
       ],
       );
     }
+  }
+
+  /** get the customer's first and last name */
+
+  getFullName() {
+    return this.firstName + " " + this.lastName;
   }
 }
 

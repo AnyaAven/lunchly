@@ -46,10 +46,10 @@ class Customer {
                 phone,
                 notes
             FROM customers
-            WHERE first_name || ' ' || last_name LIKE $1
+            WHERE first_name || ' ' || last_name ILIKE $1
             ORDER BY last_name, first_name
             `,
-      [search + "%"]
+      ["%" + search + "%"]
     );
     return results.rows.map(c => new Customer(c));
   }

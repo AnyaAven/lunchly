@@ -30,6 +30,30 @@ class Customer {
     return results.rows.map(c => new Customer(c));
   }
 
+  /** Find customers by search string
+   *
+   * Returns an array of customer instances that match the
+   * search query: [{cust1}, {cust1}, ...]
+  */
+
+  static async getAllCustomersBySearch(search) {
+
+    const results = await db.query(
+      `
+      SELECT id,
+                first_name AS "firstName",
+                last_name  AS "lastName",
+                phone,
+                notes
+            FROM customers
+            WHERE first_name || ' ' || last_name LIKE $1
+            ORDER BY last_name, first_name
+            `,
+      [search + "%"]
+    );
+    return results.rows.map(c => new Customer(c));
+  }
+
   /** get a customer by ID. */
 
   static async get(id) {

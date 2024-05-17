@@ -147,9 +147,7 @@ class Customer {
   /** get the customer's first and last name */
 
   get fullName() {
-    const fullName = this.firstName + " " + this.lastName;
-    return fullName;
-
+    return this.firstName + " " + this.lastName;
   }
 
 }

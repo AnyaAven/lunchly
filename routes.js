@@ -1,19 +1,28 @@
 /** Routes for Lunchly */
 
 import express from "express";
+import morgan from "morgan";
 
 import { BadRequestError } from "./expressError.js";
 import Customer from "./models/customer.js";
 import Reservation from "./models/reservation.js";
+import { logger, checkSearchQuery } from "./middleware.js";
 
 const router = new express.Router();
+router.use(morgan('dev'));
+
+router.use(logger);
 
 /** Homepage: show list of customers. */
 
-router.get("/", async function (req, res, next) {
-  const customers = await Customer.all();
-  return res.render("customer_list.jinja", { customers });
-});
+router.get(
+  "/",
+  checkSearchQuery,
+  function (req, res, next) {
+    const customers = res.locals.customers;
+
+    return res.render("customer_list.jinja", { customers });
+  });
 
 /** Form to add a new customer. */
 

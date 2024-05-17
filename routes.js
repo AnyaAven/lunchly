@@ -15,14 +15,17 @@ router.use(logger);
 
 /** Homepage: show list of all customers or filtered by search customers */
 
-router.get(
-  "/",
-  checkSearchQuery,
-  function (req, res, next) {
+router.get("/", async function (req, res, next) {
+  let customers;
 
-    //All customers are located at res.locals.customers
-    // The template will have access to customers [{CustInstance}...]
-    return res.render("customer_list.jinja");
+  if ("search" in req.query) {
+    const searchValue = req.query.search;
+    customers = await Customer.getAllCustomersBySearch(searchValue);
+  } else {
+    customers = await Customer.all();
+  }
+
+  return res.render("customer_list.jinja", { customers });
   }
 );
 

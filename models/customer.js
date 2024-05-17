@@ -33,7 +33,7 @@ class Customer {
   /** Find customers by search string
    *
    * Returns an array of customer instances that match the
-   * search query: [{cust1}, {cust1}, ...]
+   * search query: [{cust1}, {cust2}, ...]
   */
 
   static async getAllCustomersBySearch(search) {
@@ -51,6 +51,30 @@ class Customer {
             `,
       ["%" + search + "%"]
     );
+    return results.rows.map(c => new Customer(c));
+  }
+
+  /** Get a list of the top ten customers
+   *
+   * Returns an array of customer instances: [{cust1}, {cust2}, ...]
+  */
+  static async getBestCustomers() {
+
+    const results = await db.query(
+      `
+      SELECT c.id,
+                c.first_name AS "firstName",
+                c.last_name  AS "lastName",
+                c.phone,
+                c.notes
+            FROM customers AS c
+              JOIN reservations AS r ON c.id = r.customer_id
+            GROUP BY c.id
+            ORDER BY count(r.id) DESC
+            LIMIT 10
+            `,
+    );
+
     return results.rows.map(c => new Customer(c));
   }
 

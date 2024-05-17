@@ -4,8 +4,8 @@
 
 middleware fn
 - check if the req.query contains "/?search="
-    - if so, we are finding the customer by LIKE name in sql
-        - Requires creating another static method on customer class
+    - if so, we are finding the customer by LIKE name in sql DONE
+        - Requires creating another static method on customer class DONE
 - else, the query will be all customers
 - returning next() which will render a template (on the route)
     - render template

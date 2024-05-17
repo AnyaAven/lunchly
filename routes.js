@@ -13,16 +13,18 @@ router.use(morgan('dev'));
 
 router.use(logger);
 
-/** Homepage: show list of customers. */
+/** Homepage: show list of all customers or filtered by search customers */
 
 router.get(
   "/",
   checkSearchQuery,
   function (req, res, next) {
-    const customers = res.locals.customers;
 
-    return res.render("customer_list.jinja", { customers });
-  });
+    //All customers are located at res.locals.customers
+    // The template will have access to customers [{CustInstance}...]
+    return res.render("customer_list.jinja");
+  }
+);
 
 /** Form to add a new customer. */
 
